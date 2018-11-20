@@ -105,13 +105,15 @@ public class Fb4j {
         
         for(List<Group> GroupPage : resultGroup){
             for(Group aGroup : GroupPage){
+                Scanner sc2 = new Scanner(System.in);
                 System.out.println("¿Quieres publicar en el grupo: "+aGroup.getName()+"? (Si/No/Salir)");
-                String ans = sc.nextLine();
+                String ans = sc2.nextLine();
                 if(ans.equalsIgnoreCase("Si")){
                     System.out.println("¿Que quieres publicar?");
-                    String msg = sc.nextLine();
-                    FacebookType response2 = fbClient.publish(aGroup.getId()+"/feed",FacebookType.class,Parameter.with("message", msg));
-                    System.out.println("fb.com/"+response2.getId());
+                    String msg = sc2.nextLine();
+                    FacebookType response = fbClient.publish(aGroup.getId()+"/feed",FacebookType.class,Parameter.with("message", msg));
+                    System.out.println("fb.com/"+response.getId());
+                    System.exit(0);
                 }else if(ans.equalsIgnoreCase("Salir")){
                     System.exit(0);
                 }
@@ -124,18 +126,19 @@ Connection<Group> resultGroup2 = fbClient.fetchConnection("me/groups",Group.clas
         
         for(List<Group> GroupPage2 : resultGroup2){
             for(Group aGroup2 : GroupPage2){
+                Scanner sc3 = new Scanner(System.in);
                 System.out.println("¿Quieres publicar en el grupo: "+aGroup2.getName()+"? (Si/No/Salir)");
-                String ans2 = sc.nextLine();
+                String ans2 = sc3.nextLine();
                 if(ans2.equalsIgnoreCase("Si")){
                     System.out.println("¿Que quieres publicar?");
-                    String msg2 = sc.nextLine();
+                    String msg2 = sc3.nextLine();
                     FacebookType response2 = fbClient.publish(aGroup2.getId()+"/feed",FacebookType.class,Parameter.with("message", msg2),Parameter.with("link", "http://www.google.com"));
                     System.out.println("fb.com/"+response2.getId());
+                    System.exit(0);
                 }else if(ans2.equalsIgnoreCase("Salir")){
                     System.exit(0);
                 }
             }
         }
     }
-    
 }
