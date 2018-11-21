@@ -9,12 +9,17 @@ package fb4j;
 import com.restfb.Connection;
 import com.restfb.DefaultFacebookClient;
 import com.restfb.FacebookClient;
-import com.restfb.FacebookClient.AccessToken;
+//import com.restfb.FacebookClient.AccessToken;
 import com.restfb.Parameter;
 import com.restfb.types.FacebookType;
 import com.restfb.types.Group;
 import com.restfb.types.Post;
-import com.restfb.types.User;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+//import com.restfb.types.User;
 import java.util.List;
 import java.util.Scanner;
 
@@ -24,17 +29,15 @@ import java.util.Scanner;
  */
 public class Fb4j {
 
-   public static String accessToken = "EAAEqXdERvn4BAKfrIDYUlNnrPKp4dUFZAXW74ULCHAZBkn86DDVTB8Ens0Ilr2rAATmpE5Yrln315iRrIJb9vq3HVlXSJFMWj9ZC8XrJfJAlB0p9T09JEMp1HpmjMNyEfnecBdWnQ6rZCI7fuBlFFmyFxUQNgZAMZD";
-        
+   public static String accessToken = "EAACzEciXs8ABAL1XwFiJABPEvqkxqnvZAwPFU5YZCzduH79Q9nGb7VNsI0hqzIcIg2cwEZChphf0DftIxkgEEGHH6hfAYgkxF91FQrLmdZCLnD83Pt75VIjK2VgiDiW6DdU0UkNeyJJ1dG6TumH8v0W0yLTPSWpb8G87762nvNhdDGp76ceGvLPO9jmutY2i8SmpNwQ3ZCwZDZD";
+   public static String Wall="";     
    public static FacebookClient fbClient = new DefaultFacebookClient(accessToken);
-   public static Scanner sc = new Scanner(System.in);
+   
    
    public static void main(String[] args) {
         // TODO code application logic here
      
-
-        
-        
+        Scanner sc = new Scanner(System.in);
         int seleccion;
         // Inicio Menu
 	System.out.println("Simple Facebook Client");
@@ -79,15 +82,32 @@ public class Fb4j {
         Connection<Post> result = fbClient.fetchConnection("me/feed", Post.class);
         //OBTENER WALL
         int counter = 0;
+        
         for(List<Post> page : result){
             for(Post aPost : page){
                 System.out.println(aPost.getMessage());
+                Wall= Wall+aPost.getMessage();
                 counter++;
             }
         }
         System.out.println("Numero de posts: "+counter);
+        exportToFile();
     }
-
+    
+    public static void exportToFile(){
+        
+        try{
+           File archivo = new File("Wall.txt");
+           FileWriter escribir = new FileWriter(archivo,true);
+           escribir.write(Wall);
+           escribir.close();
+           System.out.println("Archivo .txt creado con exito");
+        }catch(IOException e){
+            System.out.println("Error al escribir");
+        }
+         
+    }
+    
     public static void postEnFeed() {
         
         System.out.println("ESTA OPCION NO SE PUEDE REALIZAR, PERO EL CODIGO DEBERIA QUEDAR COMO EN EL ARCHIVO");
